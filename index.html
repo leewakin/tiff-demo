@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>tiff</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #box {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        flex-flow: row wrap;
+      }
+      #box div {
+        width: 100px;
+        height: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <div style="background-color: rgba(255, 0, 0, 1)"></div>
+      <div style="background-color: rgba(0, 255, 0, 1)"></div>
+      <div style="background-color: rgba(0, 0, 255, 1)"></div>
+      <div style="background-color: rgba(0, 0, 0, 1)"></div>
+    </div>
+    <button id="btn">download</button>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="canvastotiff.js"></script>
+    <script>
+      const box = document.querySelector('#box')
+      const btn = document.querySelector('#btn')
+
+      btn.addEventListener('click', handleClick)
+
+      async function handleClick() {
+        const canvas = await html2canvas(box)
+        CanvasToTIFF.toBlob(canvas, blob => {
+          const link = document.createElement('a')
+          link.download = `testTiff.tiff`
+          link.href = URL.createObjectURL(blob)
+          link.click()
+        })
+      }
+    </script>
+  </body>
+</html>
